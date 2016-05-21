@@ -1,16 +1,17 @@
-import pygame
+from tkinter import *
 import math
 from random import randint
 
-pygame.init()
-canvas = pygame.display.set_mode((600,600))#this will return pygame.surface object
+root = Tk()
+canvas = Canvas(root, width = 600, height = 600)
+canvas.pack()
 
 regType = dict()#this list contains all the types of regions
 
 def regionRatio():#this method converts the percentage of zones into fractal ratios
     return 0
 
-class lines:
+class lines:#this class is for the line element objects
     def __init__(self, endPt1, endPt2, affinity):
         self.end1 = endPt1
         self.end2 = endPt2
@@ -31,25 +32,32 @@ class regionType:
         regType[self.name] = self
 
 class region:
-    def __init__(self, regSize, regType, regPosition):
+    def __init__(self, regSize, regType, regPosition, toRender = True):
         self.size = regSize
         self.type = regType
         self.pos = regPosition
+        self.graphic = None
 
         self.child = [] #this is a list of children of this region
 
-        self.render()
+        if toRender:
+            self.render()
 
     def tessellate(self, genNum=1):
         if genNum <= 0:
+            self.render()
             return 0
-        
+
+        #now counting the number of childrem
         childNum = 0
         for rType in self.type.comp:
             childNum += self.type.comp[rType]
 
         childSize = self.size/math.sqrt(childNum)
         weirdChildNum = randint(0,childNum-1)
+        #done counting the number of childrem
+
+        #print(childNum)
 
         c = 0
         while c < childNum:
@@ -65,7 +73,7 @@ class region:
                 elif self.type.name == 'nonCommercial':
                     childType = regType['commercial']
 
-            newChild = region(childSize, childType, childPos)
+            newChild = region(childSize, childType, childPos, False)
             self.child.append(newChild)
 
             newChild.tessellate(genNum-1)
@@ -76,28 +84,20 @@ class region:
             
 
     def render(self):
-        canvas.fill(self.type.color, rect=[self.pos[0], self.pos[1], self.size, self.size])
-        pygame.display.flip()
-
-white = (255,255,255)
-red = (255,0,0)
-blue = (0,0,255)
-black = (0,0,0)
+        endPos = [self.pos[0]+self.size, self.pos[1]+self.size]
+        self.graphic = canvas.create_rectangle(self.pos[0], self.pos[1], endPos[0], endPos[1], fill=self.type.color, outline = self.type.color)
+        #print(self.pos, self.size)
+        
 
 commercialComp = {'commercial':8, 'nonCommercial':1}
 nonCommercialComp = {'nonCommercial':8, 'commercial':1}
 
-commercial = regionType('commercial', red, 1, commercialComp)
-nonCommercial = regionType('nonCommercial', blue, -1, nonCommercialComp)
+commercial = regionType('commercial', '#ff0000', 1, commercialComp)
+nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
-city = region(600, nonCommercial, [0,0])
-city.tessellate(5)
+city = region(600, nonCommercial, [0,0], False)
+city.tessellate(1)
 
-exitCanvas = False
-while not exitCanvas:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            exitCanvas = True
+root.mainloop()
 
-pygame.quit()
 #quit()
