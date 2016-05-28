@@ -1,6 +1,7 @@
 from tkinter import *
 import math
 from random import randint
+import planeVec as pv
 
 root = Tk()
 root.title('City Simulator')
@@ -53,6 +54,15 @@ class region:
         if toRender:
             self.render()
 
+    def hasPoint(pos): #returns true or false on whether the point pos is in the region or not
+        checkXLims = pos[0] >= self.pos[0] and pos[0] <= self.pos[0]+self.size
+        checkYLims = pos[1] >= self.pos[1] and pos[1] <= self.pos[1]+self.size
+        
+        if checkXLims and checkYLims:
+            return True
+        else:
+            return False
+
     def tessellate(self, genNum=1):
         if genNum <= 0:
             self.render()
@@ -102,8 +112,6 @@ class region:
     def delete(self):
         canvas.delete(self.graphic)
         self.graphic = None
-
-
         
 
 commercialComp = {'commercial':8, 'nonCommercial':1}
@@ -113,10 +121,10 @@ commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
 city = region(600, nonCommercial, [0,0], False)
-city.tessellate(2)
+#city.tessellate(2)
 
 testLine = line([[50,50],[100,50],[50,100],[100,100]],1)
-testLine.render()
+#testLine.render()
 
 root.mainloop()
 
