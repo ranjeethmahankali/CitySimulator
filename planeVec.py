@@ -71,3 +71,13 @@ def lineDist(p1, p2, p):#gives a vector that is a perpendicular dropped from p t
 
     return vDiff(dLine, vec)
 
+def vCross(v1, v2):
+    #this method returns the cross product of the two vectors v1 and v2
+    #in the order v1 x v2
+    #since this is a plane vector library and all the vectors are 2D, the cross product
+    #is always perpendicular to the place and has no way to be represented in this library
+    #which doesn't supprt a third term in the ordered pair.
+    #hence This method will only return the magnitude of the cross product
+
+    return (v1[0]*v2[1] - v1[1]*v2[0])
+
