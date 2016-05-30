@@ -38,12 +38,13 @@ def intersectionPt(a1, a2, b1, b2):
         checkA = pv.dot(pv.vDiff(intPt, a1), pv.vDiff(intPt, a2))
         checkB = pv.dot(pv.vDiff(intPt, b1), pv.vDiff(intPt, b2))
 
+        #print(a1, a2, b1, b2)
+
         if checkA <= 0 and checkB <=0 :
             return intPt
         else:
             #this means the infinite lines intersect but the segments don't
             return None
-    
 
 class line:#this class is for the line element objects
     def __init__(self, pointArray, affinity):
@@ -53,7 +54,7 @@ class line:#this class is for the line element objects
 
     def render(self):#this method renders the line element on screen
         #render the line element here
-        self.graphic = canvas.create_line(self.point, fill='black', width = 3)
+        self.graphic = canvas.create_line(self.point, fill='black', width = 3*self.aff)
 
     def delete(self):
         canvas.delete(self.graphic)
@@ -90,18 +91,17 @@ class region:
 
         deg45 = math.pi/4
 
-        if angle <= deg45 and angle > 7*deg45:
+        if deg45 >= angle or angle > 7*deg45:
             return 0
         
-        elif angle > deg45 and angle <= 3*deg45:
+        elif deg45 < angle <= 3*deg45:
             return 1
         
-        elif angle > 3*deg45 and angle <= 5*deg45:
+        elif 3*deg45 < angle <= 5*deg45:
             return 2
         
-        elif angle > 5* deg45 and angle <= 7*deg45:
+        elif 5* deg45 < angle <= 7*deg45:
             return 3
-        
 
     def intercept(self, lineObj):
         #corners of the sqaure region
@@ -112,48 +112,40 @@ class region:
         sq.append(self.pos)
         
         iSum = 0 #this is the sum of intercepts that we will continue to increment
-        
+
         i = 0
         while i < len(lineObj.point)-1:
+            #print(i, iSum)
             p1 = lineObj.point[i]
             p2 = lineObj.point[i+1]
 
             if self.hasPoint(p1) and self.hasPoint(p2):
                 iSum += pv.mod(pv.vDiff(p2,p1))
-
             else:
-                #check for p1
-                rPos1 = self.relPos(p1)
-                s1 = sq[rPos1]
-                s2 = sq[(rPos1+1)%4]
-                intPt1 = intersectionPt(s1,s2,p1,p2)
+                s = 0
+                intPt = list()
+                while s < len(sq) and len(intPt) <= 2:
+                    s1 = sq[s]
+                    s2 = sq[(s+1)%4]
 
-                rPos2 = self.relPos(p2)
+                    iPt = intersectionPt(p1, p2, s1, s2)
+                    if not iPt is None:
+                        intPt.append(iPt)
 
-                s1 = sq[rPos2]
-                s2 = sq[(rPos2+1)%4]
+                    s += 1
 
-                intPt2 = intersectionPt(s1,s2,p1,p2)
+                if len(intPt) >= 2:
+                    iSum += pv.mod(pv.vDiff(intPt[0], intPt[1]))
 
-                if intPt1 is None and intPt2 is None:
-                    iSum += 0
-                elif intPt1 is None:
-                    #do something over here
-
-                
-                
             i += 1
         
-        return 0
+        return iSum
 
     def hasPoint(self, pos): #returns true or false on whether the point pos is in the region or not
-        checkXLims = pos[0] >= self.pos[0] and pos[0] <= self.pos[0]+self.size
-        checkYLims = pos[1] >= self.pos[1] and pos[1] <= self.pos[1]+self.size
-        
-        if checkXLims and checkYLims:
-            return True
-        else:
-            return False
+        checkXLims = self.pos[0] <= pos[0] <= self.pos[0] + self.size
+        checkYLims = self.pos[1] <= pos[1] <= self.pos[1] + self.size
+
+        return checkXLims and checkYLims
 
     def tessellate(self, genNum=1):
         if genNum <= 0:
@@ -213,9 +205,10 @@ commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
 city = region(600, nonCommercial, [0,0], False)
+city.tessellate(1)
 
-testLine = line([[50,50],[100,50],[50,100],[100,100]],1)
+NH9 = line([[0,60],[200,150],[400,450],[600,540]],1)
+NH9.render()
 
 root.mainloop()
-
 #quit()
