@@ -52,6 +52,31 @@ class line:#this class is for the line element objects
         self.aff = affinity
         self.graphic = None
 
+    def minDistFrom(self, pos):#returns the minimum distance from pos to this line object
+        i = 0
+        minDist = math.inf
+        while i < len(self.point)-1:
+            a = self.point[i]
+            b = self.point[i+1]
+
+            dt = pv.lineDist(a,b,pos)
+            pt = pv.vSum(pos, dt)
+
+            if pv.dot(pv.vDiff(pt,a),pv.vDiff(pt,b)) <= 0:
+                distance = pv.mod(dt)
+            else:
+                dtA = pv.mod(pv.vDiff(pos,a))
+                dtB = pv.mod(pv.vDiff(pos,b))
+
+                distance = min(dtA, dtB)
+
+            if distance < minDist:
+                minDist = distance
+
+            i += 1
+
+        return minDist
+
     def render(self):#this method renders the line element on screen
         #render the line element here
         self.graphic = canvas.create_line(self.point, fill='black', width = 3*self.aff)
@@ -210,5 +235,7 @@ city.tessellate(1)
 NH9 = line([[0,60],[200,150],[400,450],[600,540]],1)
 NH9.render()
 
-root.mainloop()
+print(NH9.minDistFrom([350,250]))
+
+#root.mainloop()
 #quit()
