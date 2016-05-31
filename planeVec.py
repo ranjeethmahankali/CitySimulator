@@ -81,3 +81,15 @@ def vCross(v1, v2):
 
     return (v1[0]*v2[1] - v1[1]*v2[0])
 
+def pointArrayClosestPoint(pArr, pos):#this method returns the closes point from the list pArr to pos
+    #this method is a replacement for what is found in the rhinoscriptsyntax module
+    minDist = math.inf
+    closestPt = None
+
+    i = 0
+    while i < len(pArr):
+        if mod(vDiff(pos,pArr[i])) < minDist:
+            closestPt = pArr[i]
+        i += 1
+
+    return closestPt

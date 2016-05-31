@@ -229,9 +229,9 @@ commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
 city = region(600, nonCommercial, [0,0], False)
-city.tessellate(1)
+city.tessellate(2)
 
-NH9 = line([[0,60],[150,150],[450,450],[600,540]],1)
+NH9 = line([[0,60],[200,150],[400,450],[600,540]],1)
 NH9.render()
 
 print(NH9.minDistFrom([350,250]))
