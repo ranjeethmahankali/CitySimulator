@@ -246,6 +246,9 @@ class fence:
             lineCross = pv.vCross(rayVec, lineVec)
             if lineCross == 0:
                 #the lines are parallel
+                i += 1
+                # the increment of i is neccessary because this is a while loop not for loop
+                # continue statement doesnot automatically do it
                 continue
 
             othCross = pv.vCross(pv.vDiff(v1,pos),lineVec)
@@ -266,7 +269,8 @@ class fence:
             return True
 
     def render(self):#renders the fence on canvas
-        self.graphic = canvas.create_line(self.vertex, fill='black', width = 1)
+        #the self.vertex array is not a cyclic list so the polygon will not be closed
+        self.graphic = canvas.create_polygon(self.vertex, fill='black', stipple = 'gray75')
 
 
 commercialComp = {'commercial':8, 'nonCommercial':1}
@@ -285,8 +289,8 @@ print(NH9.minDistFrom([350,250]))
 line1 = line([[0,60],[200,150]],1)
 line2 = line([[200,150],[400,450]],1)
 
-fTest = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,400]])
-#fTest.render()
-print(fTest.hasPoint([200,200]))
-#root.mainloop()
+fTest = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
+fTest.render()
+print(fTest.hasPoint([250,200]))
+root.mainloop()
 #quit()
