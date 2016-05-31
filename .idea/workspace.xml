@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97fdd8de-8926-41b6-b684-e1963231ff29" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/citySimulator.py" afterPath="$PROJECT_DIR$/citySimulator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/planeVec.py" afterPath="$PROJECT_DIR$/planeVec.py" />
     </list>
     <ignored path="CitySimulator.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,34 +24,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="citySimulator.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="citySimulator.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/citySimulator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="233" column="32" selection-start-line="233" selection-start-column="32" selection-end-line="233" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.8544521">
+              <caret line="289" column="32" selection-start-line="289" selection-start-column="32" selection-end-line="289" selection-end-column="32" />
               <folding>
                 <element signature="e#283#363#0" expanded="false" />
                 <element signature="e#503#1423#0" expanded="false" />
                 <element signature="e#1534#1613#0" expanded="false" />
-                <element signature="e#2361#2478#0" expanded="false" />
+                <element signature="e#1713#2282#0" expanded="false" />
                 <element signature="e#2510#2565#0" expanded="false" />
                 <element signature="e#2589#2808#0" expanded="false" />
                 <element signature="e#2661#2808#0" expanded="false" />
+                <element signature="e#2828#6777#0" expanded="false" />
                 <element signature="e#2904#3153#0" expanded="false" />
                 <element signature="e#3242#3753#0" expanded="false" />
                 <element signature="e#3797#4915#0" expanded="false" />
                 <element signature="e#5245#6410#0" expanded="false" />
                 <element signature="e#6455#6690#0" expanded="false" />
                 <element signature="e#6722#6777#0" expanded="false" />
+                <element signature="e#7241#8331#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="planeVec.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="planeVec.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/planeVec.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9147982">
+            <state vertical-scroll-proportion="0.0">
               <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
               <folding>
                 <element signature="e#125#168#0" expanded="false" />
@@ -78,14 +80,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/citySimulator.py" />
         <option value="$PROJECT_DIR$/planeVec.py" />
+        <option value="$PROJECT_DIR$/citySimulator.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1366" />
-    <option name="height" value="768" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -131,6 +135,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -151,7 +156,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -160,6 +164,22 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="159" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="159" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="159" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="834" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="163" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="161" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="163" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="837" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RunManager" selected="Python.citySimulator">
     <configuration default="false" name="citySimulator" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -324,21 +344,21 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1366" height="768" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25189108" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.38593975" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="6" y="207" width="1354" height="308" />
-      <window_info id="Run" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37821484" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.5040917" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="-2" y="176" width="1370" height="347" />
+      <window_info id="Run" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37821484" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51966715" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="493" y="58" width="373" height="612" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -391,16 +411,62 @@
             <element signature="e#283#363#0" expanded="false" />
             <element signature="e#503#1423#0" expanded="false" />
             <element signature="e#1534#1613#0" expanded="false" />
-            <element signature="e#2361#2478#0" expanded="false" />
+            <element signature="e#1713#2282#0" expanded="false" />
             <element signature="e#2510#2565#0" expanded="false" />
             <element signature="e#2589#2808#0" expanded="false" />
             <element signature="e#2661#2808#0" expanded="false" />
+            <element signature="e#2828#6777#0" expanded="false" />
             <element signature="e#2904#3153#0" expanded="false" />
             <element signature="e#3242#3753#0" expanded="false" />
             <element signature="e#3797#4915#0" expanded="false" />
             <element signature="e#5245#6410#0" expanded="false" />
             <element signature="e#6455#6690#0" expanded="false" />
             <element signature="e#6722#6777#0" expanded="false" />
+            <element signature="e#7241#8331#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/planeVec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
+          <folding>
+            <element signature="e#125#168#0" expanded="false" />
+            <element signature="e#270#879#0" expanded="false" />
+            <element signature="e#933#974#0" expanded="false" />
+            <element signature="e#1046#1088#0" expanded="false" />
+            <element signature="e#1173#1347#0" expanded="false" />
+            <element signature="e#1419#1448#0" expanded="false" />
+            <element signature="e#1510#1551#0" expanded="false" />
+            <element signature="e#1598#1639#0" expanded="false" />
+            <element signature="e#1714#1828#0" expanded="false" />
+            <element signature="e#1943#2227#0" expanded="false" />
+            <element signature="e#2253#2700#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/citySimulator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#283#363#0" expanded="false" />
+            <element signature="e#503#1423#0" expanded="false" />
+            <element signature="e#1534#1613#0" expanded="false" />
+            <element signature="e#1713#2282#0" expanded="false" />
+            <element signature="e#2510#2565#0" expanded="false" />
+            <element signature="e#2589#2808#0" expanded="false" />
+            <element signature="e#2661#2808#0" expanded="false" />
+            <element signature="e#2828#6777#0" expanded="false" />
+            <element signature="e#2904#3153#0" expanded="false" />
+            <element signature="e#3242#3753#0" expanded="false" />
+            <element signature="e#3797#4915#0" expanded="false" />
+            <element signature="e#5245#6410#0" expanded="false" />
+            <element signature="e#6455#6690#0" expanded="false" />
+            <element signature="e#6722#6777#0" expanded="false" />
+            <element signature="e#7241#8331#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -433,16 +499,18 @@
             <element signature="e#283#363#0" expanded="false" />
             <element signature="e#503#1423#0" expanded="false" />
             <element signature="e#1534#1613#0" expanded="false" />
-            <element signature="e#2361#2478#0" expanded="false" />
+            <element signature="e#1713#2282#0" expanded="false" />
             <element signature="e#2510#2565#0" expanded="false" />
             <element signature="e#2589#2808#0" expanded="false" />
             <element signature="e#2661#2808#0" expanded="false" />
+            <element signature="e#2828#6777#0" expanded="false" />
             <element signature="e#2904#3153#0" expanded="false" />
             <element signature="e#3242#3753#0" expanded="false" />
             <element signature="e#3797#4915#0" expanded="false" />
             <element signature="e#5245#6410#0" expanded="false" />
             <element signature="e#6455#6690#0" expanded="false" />
             <element signature="e#6722#6777#0" expanded="false" />
+            <element signature="e#7241#8331#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -467,31 +535,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/citySimulator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="233" column="32" selection-start-line="233" selection-start-column="32" selection-end-line="233" selection-end-column="32" />
-          <folding>
-            <element signature="e#283#363#0" expanded="false" />
-            <element signature="e#503#1423#0" expanded="false" />
-            <element signature="e#1534#1613#0" expanded="false" />
-            <element signature="e#2361#2478#0" expanded="false" />
-            <element signature="e#2510#2565#0" expanded="false" />
-            <element signature="e#2589#2808#0" expanded="false" />
-            <element signature="e#2661#2808#0" expanded="false" />
-            <element signature="e#2904#3153#0" expanded="false" />
-            <element signature="e#3242#3753#0" expanded="false" />
-            <element signature="e#3797#4915#0" expanded="false" />
-            <element signature="e#5245#6410#0" expanded="false" />
-            <element signature="e#6455#6690#0" expanded="false" />
-            <element signature="e#6722#6777#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/planeVec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9147982">
+        <state vertical-scroll-proportion="0.0">
           <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
           <folding>
             <element signature="e#125#168#0" expanded="false" />
@@ -505,6 +551,30 @@
             <element signature="e#1714#1828#0" expanded="false" />
             <element signature="e#1943#2227#0" expanded="false" />
             <element signature="e#2253#2700#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/citySimulator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8544521">
+          <caret line="289" column="32" selection-start-line="289" selection-start-column="32" selection-end-line="289" selection-end-column="32" />
+          <folding>
+            <element signature="e#283#363#0" expanded="false" />
+            <element signature="e#503#1423#0" expanded="false" />
+            <element signature="e#1534#1613#0" expanded="false" />
+            <element signature="e#1713#2282#0" expanded="false" />
+            <element signature="e#2510#2565#0" expanded="false" />
+            <element signature="e#2589#2808#0" expanded="false" />
+            <element signature="e#2661#2808#0" expanded="false" />
+            <element signature="e#2828#6777#0" expanded="false" />
+            <element signature="e#2904#3153#0" expanded="false" />
+            <element signature="e#3242#3753#0" expanded="false" />
+            <element signature="e#3797#4915#0" expanded="false" />
+            <element signature="e#5245#6410#0" expanded="false" />
+            <element signature="e#6455#6690#0" expanded="false" />
+            <element signature="e#6722#6777#0" expanded="false" />
+            <element signature="e#7241#8331#0" expanded="false" />
           </folding>
         </state>
       </provider>

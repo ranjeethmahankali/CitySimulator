@@ -222,6 +222,53 @@ class region:
         canvas.delete(self.graphic)
         self.graphic = None
 
+class fence:
+    #fences are closed polyline which mark our the areas which donot belong to any region or city
+    #my intention is to use fences to mark city boundaries and areas in which a city cannot grow or exist
+    #like campuses and lakes etc.
+    def __init__(self, verticesList):
+        self.vertex = verticesList
+        self.graphic = None
+
+    def hasPoint(self, pos):#this method returns a boolean whether pos lies inside this fence or not
+        #need to do research about figuring out how to verify whether a
+        #point lies inside a random polygon
+        crossCount = 0 #counting the number of times the polugon is crossed
+        rayVec = [1,0] # I am about to write a ray casting algorithm to the right
+
+        i = 0
+        while i < len(self.vertex):
+            v1 = self.vertex[i]
+            v2 = self.vertex[(i+1)%len(self.vertex)]
+
+            lineVec = pv.unitV(pv.vDiff(v2,v1))
+
+            lineCross = pv.vCross(rayVec, lineVec)
+            if lineCross == 0:
+                #the lines are parallel
+                continue
+
+            othCross = pv.vCross(pv.vDiff(v1,pos),lineVec)
+            param = othCross/lineCross
+
+            if param == 0:
+                return True
+            if param > 0:
+                #checking if atleast one of the vertices lie below the threshold (look up oneNote notebook)
+                if v1[1] < pos[1] or v2[1] < pos[1]:
+                    crossCount += 1
+
+            i += 1
+
+        if crossCount%2 == 0:
+            return False
+        else:
+            return True
+
+    def render(self):#renders the fence on canvas
+        self.graphic = canvas.create_line(self.vertex, fill='black', width = 1)
+
+
 commercialComp = {'commercial':8, 'nonCommercial':1}
 nonCommercialComp = {'nonCommercial':8, 'commercial':1}
 
@@ -238,5 +285,8 @@ print(NH9.minDistFrom([350,250]))
 line1 = line([[0,60],[200,150]],1)
 line2 = line([[200,150],[400,450]],1)
 
-root.mainloop()
+fTest = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,400]])
+#fTest.render()
+print(fTest.hasPoint([200,200]))
+#root.mainloop()
 #quit()
