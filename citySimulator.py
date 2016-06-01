@@ -47,9 +47,8 @@ def intersectionPt(a1, a2, b1, b2):
             return None
 
 class line:#this class is for the line element objects
-    def __init__(self, pointArray, affinity):
+    def __init__(self, pointArray):
         self.point = pointArray
-        self.aff = affinity
         self.graphic = None
 
     def minDistFrom(self, pos):#returns the minimum distance from pos to this line object
