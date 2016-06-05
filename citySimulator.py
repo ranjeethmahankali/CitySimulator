@@ -78,7 +78,7 @@ class line:#this class is for the line element objects
 
     def render(self):#this method renders the line element on screen
         #render the line element here
-        self.graphic = canvas.create_line(self.point, fill='black', width = 3*self.aff)
+        self.graphic = canvas.create_line(self.point, fill='black', width = 2)
 
     def delete(self):
         canvas.delete(self.graphic)
@@ -172,8 +172,10 @@ class region:
         return checkXLims and checkYLims
 
     def tessellate(self, genNum=1):
+        self.delete()
+        #deleting any previous renderings of this region
         if genNum <= 0:
-            self.render()
+            #self.render()
             return 0
 
         #now counting the number of childrem
@@ -213,9 +215,12 @@ class region:
             
 
     def render(self):
-        endPos = [self.pos[0]+self.size, self.pos[1]+self.size]
-        self.graphic = canvas.create_rectangle(self.pos[0], self.pos[1], endPos[0], endPos[1], fill=self.type.color, outline = self.type.color)
-        #print(self.pos, self.size)
+        if len(self.child) == 0:
+            endPos = [self.pos[0]+self.size, self.pos[1]+self.size]
+            self.graphic = canvas.create_rectangle(self.pos[0], self.pos[1], endPos[0], endPos[1], fill=self.type.color, outline = self.type.color)
+        else:
+            for ch in self.child:
+                ch.render()
 
     def delete(self):
         canvas.delete(self.graphic)
@@ -279,17 +284,16 @@ commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
 city = region(600, nonCommercial, [0,0], False)
-city.tessellate(2)
+city.tessellate(3)
+city.render()
 
-NH9 = line([[0,60],[200,150],[400,450],[600,540]],1)
+NH9 = line([[0,60],[200,150],[400,450],[600,540]])
 NH9.render()
 
 print(NH9.minDistFrom([350,250]))
-line1 = line([[0,60],[200,150]],1)
-line2 = line([[200,150],[400,450]],1)
 
-fTest = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
-fTest.render()
-print(fTest.hasPoint([250,200]))
+campus = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
+campus.render()
+
 root.mainloop()
 #quit()
