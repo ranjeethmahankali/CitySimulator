@@ -235,8 +235,6 @@ class fence:
         self.graphic = None
 
     def hasPoint(self, pos):#this method returns a boolean whether pos lies inside this fence or not
-        #need to do research about figuring out how to verify whether a
-        #point lies inside a random polygon
         crossCount = 0 #counting the number of times the polugon is crossed
         rayVec = [1,0] # I am about to write a ray casting algorithm to the right
 
@@ -276,6 +274,20 @@ class fence:
         #the self.vertex array is not a cyclic list so the polygon will not be closed
         self.graphic = canvas.create_polygon(self.vertex, fill='black', stipple = 'gray75')
 
+    def area(self):#this method returns the area of the polygon
+        #this method does not work for self interscting polygons, but other wise works for both convex and concave
+        i = 0
+        ArSum = 0
+        while i < len(self.vertex):
+            j = (i+1)%len(self.vertex)
+            ArSum += self.vertex[i][0]*self.vertex[j][1]
+            ArSum -= self.vertex[i][1]*self.vertex[j][0]
+
+            i += 1
+
+        polyArea = abs(ArSum)/2
+        return polyArea
+
 
 commercialComp = {'commercial':8, 'nonCommercial':1}
 nonCommercialComp = {'nonCommercial':8, 'commercial':1}
@@ -290,10 +302,12 @@ city.render()
 NH9 = line([[0,60],[200,150],[400,450],[600,540]])
 NH9.render()
 
-print(NH9.minDistFrom([350,250]))
+#print(NH9.minDistFrom([350,250]))
 
 campus = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
 campus.render()
+
+print(campus.area())
 
 root.mainloop()
 #quit()
