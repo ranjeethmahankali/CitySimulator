@@ -14,8 +14,15 @@ def exportCanvas(fileName):
     canvas.update()
     canvas.postscript(file = fileName+'.eps', colormode='color')
 
-def regionRatio():#this method converts the percentage of zones into fractal ratios
-    return 0
+def sortChildren(childList):#sort method o determine the fate of the child spaces.
+    #currently this sort method only sorts randomly
+    childNum = len(childList)
+    weirdChildNum = randint(0, childNum - 1)
+
+    if childList[weirdChildNum].type.name == 'commercial':
+        childList[weirdChildNum].type = regType['nonCommercial']
+    elif childList[weirdChildNum].type.name == 'nonCommercial':
+        childList[weirdChildNum].type = regType['commercial']
 
 def intersectionPt(a1, a2, b1, b2):
     #this method returns the point of intersection of two lines.
@@ -184,8 +191,7 @@ class region:
             childNum += self.type.comp[rType]
 
         childSize = self.size/math.sqrt(childNum)
-        weirdChildNum = randint(0,childNum-1)
-        #done counting the number of childrem
+        #done counting the number of children and decided the weird child in advance
 
         #print(childNum)
 
@@ -195,24 +201,17 @@ class region:
             rowNum = (c-colNum)/math.sqrt(childNum)
             childPos = [self.pos[0] + colNum*childSize, self.pos[1] + rowNum*childSize]
 
-            childType = self.type
-
-            if c == weirdChildNum:
-                if self.type.name == 'commercial':
-                    childType = regType['nonCommercial']
-                elif self.type.name == 'nonCommercial':
-                    childType = regType['commercial']
-
-            newChild = region(childSize, childType, childPos, False)
+            newChild = region(childSize, self.type, childPos, False)
             self.child.append(newChild)
             newChild.parent = self
 
-            newChild.tessellate(genNum-1)
-
-            #print(str(c+1)+'th child at '+str(childPos))
-
             c += 1
-            
+
+        sortChildren(self.child)
+
+        for childRegion in self.child:
+            childRegion.tessellate(genNum - 1)
+
 
     def render(self):
         if len(self.child) == 0:
@@ -296,7 +295,7 @@ commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
 city = region(600, nonCommercial, [0,0], False)
-city.tessellate(4)
+city.tessellate(5)
 city.render()
 
 NH9 = line([[0,60],[200,150],[400,450],[600,540]])
