@@ -9,12 +9,13 @@ canvas = Canvas(root, width = 600, height = 600)
 canvas.pack()
 
 regType = dict()#this list contains all the types of regions
+lines = list()
 
 def exportCanvas(fileName):
     canvas.update()
     canvas.postscript(file = fileName+'.eps', colormode='color')
 
-def sortChildren(childList):#sort method o determine the fate of the child spaces.
+def sortChildren_random(childList):#sort method o determine the fate of the child spaces.
     #currently this sort method only sorts randomly
     childNum = len(childList)
     weirdChildNum = randint(0, childNum - 1)
@@ -23,6 +24,66 @@ def sortChildren(childList):#sort method o determine the fate of the child space
         childList[weirdChildNum].type = regType['nonCommercial']
     elif childList[weirdChildNum].type.name == 'nonCommercial':
         childList[weirdChildNum].type = regType['commercial']
+
+def sortChildren_lines(parentReg, lineList):
+    #this method will sort according to the connectivity to the lineElements
+    flipChildNum = 0
+
+    if parentReg.type.name == 'nonCommercial':
+        maxIntSum = 0
+        minDistance = math.inf
+
+        c = 0
+        while c < len(parentReg.child):
+            intSum = 0
+            minDist = math.inf
+            l = 0
+            while l < len(lineList):
+                intSum += parentReg.child[c].intercept(lineList[l])
+                dist = parentReg.child[c].minDistFromLine(lineList[l])
+                if dist < minDist:
+                    minDist = dist
+                l += 1
+
+            if intSum > maxIntSum:
+                maxIntSum = intSum
+                flipChildNum = c
+            elif intSum == maxIntSum:
+                if minDist < minDistance:
+                    minDistance = minDist
+                    flipChildNum = c
+
+            c += 1
+
+        parentReg.child[flipChildNum].type = regType['commercial']
+
+    elif parentReg.type.name == 'commercial':
+        minIntSum = math.inf
+        minDistance = 0
+
+        c = 0
+        while c < len(parentReg.child):
+            intSum = 0
+            minDist = math.inf
+            l = 0
+            while l < len(lineList):
+                intSum += parentReg.child[c].intercept(lineList[l])
+                dist = parentReg.child[c].minDistFromLine(lineList[l])
+                if dist < minDist:
+                    minDist = dist
+                l += 1
+
+            if intSum < minIntSum:
+                minIntSum = intSum
+                flipChildNum = c
+            elif intSum == minIntSum:
+                if minDist > minDistance:
+                    minDistance = minDist
+                    flipChildNum = c
+
+            c += 1
+
+        parentReg.child[flipChildNum].type = regType['nonCommercial']
 
 def intersectionPt(a1, a2, b1, b2):
     #this method returns the point of intersection of two lines.
@@ -57,6 +118,8 @@ class line:#this class is for the line element objects
     def __init__(self, pointArray):
         self.point = pointArray
         self.graphic = None
+
+        lines.append(self)
 
     def minDistFrom(self, pos):#returns the minimum distance from pos to this line object
         i = 0
@@ -134,6 +197,7 @@ class region:
         elif 5* deg45 < angle <= 7*deg45:
             return 3
 
+    #this method calculates the intercept of a line object within the region
     def intercept(self, lineObj):
         #corners of the sqaure region
         sq = list()
@@ -172,6 +236,7 @@ class region:
         
         return iSum
 
+    #returns true of the point lies inside the region
     def hasPoint(self, pos): #returns true or false on whether the point pos is in the region or not
         checkXLims = self.pos[0] <= pos[0] <= self.pos[0] + self.size
         checkYLims = self.pos[1] <= pos[1] <= self.pos[1] + self.size
@@ -207,11 +272,10 @@ class region:
 
             c += 1
 
-        sortChildren(self.child)
+        sortChildren_lines(self, lines)#changing the children
 
         for childRegion in self.child:
             childRegion.tessellate(genNum - 1)
-
 
     def render(self):
         if len(self.child) == 0:
@@ -224,6 +288,11 @@ class region:
     def delete(self):
         canvas.delete(self.graphic)
         self.graphic = None
+
+    def minDistFromLine(self, lineObj):
+        center = pv.vSum(self.pos, [self.size/2, self.size/2])
+        return lineObj.minDistFrom(center)
+
 
 class fence:
     #fences are closed polyline which mark our the areas which donot belong to any region or city
@@ -294,19 +363,21 @@ nonCommercialComp = {'nonCommercial':8, 'commercial':1}
 commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
+NH9 = line([[0,60],[200,150],[400,450],[600,540]])
+musi = line([[0,350],[600,250]])
+
 city = region(600, nonCommercial, [0,0], False)
 city.tessellate(5)
 city.render()
 
-NH9 = line([[0,60],[200,150],[400,450],[600,540]])
 NH9.render()
-
+musi.render()
 #print(NH9.minDistFrom([350,250]))
 
 campus = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
-campus.render()
+#campus.render()
 
-print(campus.area())
+#print(campus.area())
 
 root.mainloop()
 #quit()
