@@ -302,6 +302,12 @@ class fence:
         self.vertex = verticesList
         self.graphic = None
 
+        vertSum = [0,0]
+        for vert in self.vertex:
+            vertSum = pv.vSum(vertSum, vert)
+
+        self.center = pv.vPrd(vertSum, 1/len(self.vertex))
+
     def hasPoint(self, pos):#this method returns a boolean whether pos lies inside this fence or not
         crossCount = 0 #counting the number of times the polugon is crossed
         rayVec = [1,0] # I am about to write a ray casting algorithm to the right

@@ -44,7 +44,8 @@ def cosAng(vec1, vec2):#returns the cos of the angle between these two vectors
         return None
         print("Division by zero in cosAng function")
 
-def vPrd(vec, sc):#returnss the product of the vector with scalar
+#returnss the product of the vector with scalar
+def vPrd(vec, sc):
     return [vec[0]*sc, vec[1]*sc]
 
 def vSum(vec1, vec2):#returns the su of the two vectors
