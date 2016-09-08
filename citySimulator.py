@@ -9,7 +9,8 @@ canvas = Canvas(root, width = 600, height = 600)
 canvas.pack()
 
 regType = dict()#this list contains all the types of regions
-lines = list()
+lines = list()#this is the list of all line objects in the document
+fences = list()#this is the list of all fence objects in the document
 
 def exportCanvas(fileName):
     canvas.update()
@@ -308,6 +309,8 @@ class fence:
 
         self.center = pv.vPrd(vertSum, 1/len(self.vertex))
 
+        fences.append(self)
+
     def hasPoint(self, pos):#this method returns a boolean whether pos lies inside this fence or not
         crossCount = 0 #counting the number of times the polugon is crossed
         rayVec = [1,0] # I am about to write a ray casting algorithm to the right
@@ -363,25 +366,25 @@ class fence:
         return polyArea
 
 
-commercialComp = {'commercial':8, 'nonCommercial':1}
-nonCommercialComp = {'nonCommercial':8, 'commercial':1}
+commercialComp = {'commercial':24, 'nonCommercial':1}
+nonCommercialComp = {'nonCommercial':24, 'commercial':1}
 
 commercial = regionType('commercial', '#ff0000', 1, commercialComp)
 nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
 
+city = region(600, nonCommercial, [0,0], False)
+
 NH9 = line([[0,60],[200,150],[400,450],[600,540]])
 musi = line([[0,350],[600,250]])
 
-city = region(600, nonCommercial, [0,0], False)
-city.tessellate(5)
+campus = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
+
+city.tessellate(3)
 city.render()
 
 NH9.render()
 musi.render()
-#print(NH9.minDistFrom([350,250]))
-
-campus = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
-#campus.render()
+campus.render()
 
 #print(campus.area())
 
