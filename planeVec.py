@@ -1,10 +1,12 @@
 #this is the 2d vector functions library
 import math
 
-def dist(x1,y1,x2,y2):#returns the distance between the two points
+#returns the distance between the two points
+def dist(x1,y1,x2,y2):
     return math.sqrt(((x2-x1)**2)+((y2-y1)**2))
 
-def lineAngle(x0,y0,x1,y1):#returns the inclination of the line with positive x-axis in radians
+#returns the inclination of the line with positive x-axis in radians
+def lineAngle(x0,y0,x1,y1):
     angle = None
 
     if x1 > x0:
@@ -31,13 +33,16 @@ def lineAngle(x0,y0,x1,y1):#returns the inclination of the line with positive x-
 
     return angle
 
-def mod(vec):#returns the magnitude of a vector
+#returns the magnitude of a vector
+def mod(vec):
     return math.sqrt((vec[0]**2)+(vec[1]**2))
 
-def dot(vec1, vec2):#returns the dot product of these two vectors
+#returns the dot product of these two vectors
+def dot(vec1, vec2):
     return (vec1[0]*vec2[0])+(vec1[1]*vec2[1])
 
-def cosAng(vec1, vec2):#returns the cos of the angle between these two vectors
+#returns the cos of the angle between these two vectors
+def cosAng(vec1, vec2):
     if (mod(vec1) != 0 and mod(vec2) != 0):
         return dot(vec1,vec2)/(mod(vec1)*mod(vec2))
     else:
@@ -48,20 +53,24 @@ def cosAng(vec1, vec2):#returns the cos of the angle between these two vectors
 def vPrd(vec, sc):
     return [vec[0]*sc, vec[1]*sc]
 
-def vSum(vec1, vec2):#returns the su of the two vectors
+#returns the su of the two vectors
+def vSum(vec1, vec2):
     return [vec1[0]+vec2[0], vec1[1]+vec2[1]]
 
-def vDiff(vec1, vec2):#returns vec1-vec2
+#returns vec1-vec2
+def vDiff(vec1, vec2):
     return [vec1[0]-vec2[0], vec1[1]-vec2[1]]
 
-def unitV(vec):#returns the unit vector parallel to the given vector
+#returns the unit vector parallel to the given vector
+def unitV(vec):
     length = mod(vec)
     if length == 0:
         return [0,0]
     else:
         return [vec[0]/length, vec[1]/length]
 
-def lineDist(p1, p2, p):#gives a vector that is a perpendicular dropped from p to the line joining p1 and p2
+#gives a vector that is a perpendicular dropped from p to the line joining p1 and p2
+def lineDist(p1, p2, p):
     line = vDiff(p2, p1) #line joining p1 to p2
     vec = vDiff(p, p1) #line joining p1 to p
 
@@ -72,18 +81,18 @@ def lineDist(p1, p2, p):#gives a vector that is a perpendicular dropped from p t
 
     return vDiff(dLine, vec)
 
+#this method returns the cross product of the two vectors v1 and v2
+#in the order v1 x v2
+#since this is a plane vector library and all the vectors are 2D, the cross product
+#is always perpendicular to the place and has no way to be represented in this library
+#which doesn't supprt a third term in the ordered pair.
+#hence This method will only return the magnitude of the cross product
 def vCross(v1, v2):
-    #this method returns the cross product of the two vectors v1 and v2
-    #in the order v1 x v2
-    #since this is a plane vector library and all the vectors are 2D, the cross product
-    #is always perpendicular to the place and has no way to be represented in this library
-    #which doesn't supprt a third term in the ordered pair.
-    #hence This method will only return the magnitude of the cross product
+    return v1[0] * v2[1] - v1[1] * v2[0]
 
-    return (v1[0]*v2[1] - v1[1]*v2[0])
-
-def pointArrayClosestPoint(pArr, pos):#this method returns the closes point from the list pArr to pos
-    #this method is a replacement for what is found in the rhinoscriptsyntax module
+#this method returns the closes point from the list pArr to pos
+#this method is a replacement for what is found in the rhinoscriptsyntax module
+def pointArrayClosestPoint(pArr, pos):
     minDist = math.inf
     closestPt = None
 
@@ -94,3 +103,34 @@ def pointArrayClosestPoint(pArr, pos):#this method returns the closes point from
         i += 1
 
     return closestPt
+
+#this method returns the intersection point of line joining a1 and a2
+#and the line joining b1 and b2
+def intersectionPt(a1, a2, b1, b2):
+    #this method returns the point of intersection of two lines.
+    #one is a segment from a1 to a2 and the other one is a segment from b1 to b2
+
+    uA = unitV(vDiff(a2,a1))
+    uB = unitV(vDiff(b2,b1))
+    UAxUB = vCross(uA, uB)
+
+    if UAxUB == 0:
+        #the lines are parallel so there is no interesection
+        return None
+    else:
+        aParam = (vCross(vDiff(b1,a1),uB))/UAxUB
+
+        intPt = vSum(a1, vPrd(uA, aParam))
+        #the above point is the intersection point but now we have to check
+        #if it lies on both the segments
+
+        checkA = dot(vDiff(intPt, a1), vDiff(intPt, a2))
+        checkB = dot(vDiff(intPt, b1), vDiff(intPt, b2))
+
+        #print(a1, a2, b1, b2)
+
+        if checkA <= 0 and checkB <=0 :
+            return intPt
+        else:
+            #this means the infinite lines intersect but the segments don't
+            return None

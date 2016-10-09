@@ -2,6 +2,7 @@ from tkinter import *
 import math
 from random import randint
 import planeVec as pv
+import scoring as sc
 
 root = Tk()
 root.title('City Simulator')
@@ -11,6 +12,9 @@ canvas.pack()
 regType = dict()#this list contains all the types of regions
 lines = list()#this is the list of all line objects in the document
 fences = list()#this is the list of all fence objects in the document
+
+def error(msg):
+    print('Error: '+msg)
 
 def exportCanvas(fileName):
     canvas.update()
@@ -86,39 +90,14 @@ def sortChildren_lines(parentReg, lineList):
 
         parentReg.child[flipChildNum].type = regType['nonCommercial']
 
-def intersectionPt(a1, a2, b1, b2):
-    #this method returns the point of intersection of two lines.
-    #one is a segment from a1 to a2 and the other one is a segment from b1 to b2
-
-    uA = pv.unitV(pv.vDiff(a2,a1))
-    uB = pv.unitV(pv.vDiff(b2,b1))
-    UAxUB = pv.vCross(uA, uB)
-
-    if UAxUB == 0:
-        #the lines are parallel so there is no interesection
-        return None
-    else:
-        aParam = (pv.vCross(pv.vDiff(b1,a1),uB))/UAxUB
-
-        intPt = pv.vSum(a1, pv.vPrd(uA, aParam))
-        #the above point is the intersection point but now we have to check
-        #if it lies on both the segments
-
-        checkA = pv.dot(pv.vDiff(intPt, a1), pv.vDiff(intPt, a2))
-        checkB = pv.dot(pv.vDiff(intPt, b1), pv.vDiff(intPt, b2))
-
-        #print(a1, a2, b1, b2)
-
-        if checkA <= 0 and checkB <=0 :
-            return intPt
-        else:
-            #this means the infinite lines intersect but the segments don't
-            return None
-
 class line:#this class is for the line element objects
     def __init__(self, pointArray):
         self.point = pointArray
         self.graphic = None
+
+        #this attribute represents how far up this element is in hierarchy
+        #if the value is high then the actual importance is small
+        self.scale = 0
 
         lines.append(self)
 
@@ -172,6 +151,10 @@ class region:
         self.pos = regPosition
         self.graphic = None
 
+        #this represents the scale of the region
+        #0 is the biggest region and the smaller regions have increasing values
+        self.scale = 0
+
         self.child = [] #this is a list of children of this region
         self.parent = None
 
@@ -197,6 +180,22 @@ class region:
         
         elif 5* deg45 < angle <= 7*deg45:
             return 3
+
+    def addChild(self, childReg):
+        if not isinstance(childReg, region):
+            error('This object is not a region object '
+                  'hence cannot be added as a child to another region')
+            return
+
+        if not childReg.parent is None:
+            error('This space already has a parent so cannot be '
+                  'given a new parent')
+            return
+
+        self.child.append(childReg)
+        childReg.parent = self
+
+        childReg.scale = self.scale + 1
 
     #this method calculates the intercept of a line object within the region
     def intercept(self, lineObj):
@@ -224,7 +223,7 @@ class region:
                     s1 = sq[s]
                     s2 = sq[(s+1)%4]
 
-                    iPt = intersectionPt(p1, p2, s1, s2)
+                    iPt = pv.intersectionPt(p1, p2, s1, s2)
                     if not iPt is None:
                         intPt.append(iPt)
 
@@ -268,8 +267,9 @@ class region:
             childPos = [self.pos[0] + colNum*childSize, self.pos[1] + rowNum*childSize]
 
             newChild = region(childSize, self.type, childPos, False)
-            self.child.append(newChild)
-            newChild.parent = self
+            #self.child.append(newChild)
+            #newChild.parent = self
+            self.addChild(newChild)
 
             c += 1
 
@@ -293,6 +293,9 @@ class region:
     def minDistFromLine(self, lineObj):
         center = pv.vSum(self.pos, [self.size/2, self.size/2])
         return lineObj.minDistFrom(center)
+
+    def scaleDiff(self, region):
+        return
 
 
 class fence:
@@ -364,29 +367,3 @@ class fence:
 
         polyArea = abs(ArSum)/2
         return polyArea
-
-
-commercialComp = {'commercial':24, 'nonCommercial':1}
-nonCommercialComp = {'nonCommercial':24, 'commercial':1}
-
-commercial = regionType('commercial', '#ff0000', 1, commercialComp)
-nonCommercial = regionType('nonCommercial', '#0000ff', -1, nonCommercialComp)
-
-city = region(600, nonCommercial, [0,0], False)
-
-NH9 = line([[0,60],[200,150],[400,450],[600,540]])
-musi = line([[0,350],[600,250]])
-
-campus = fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
-
-city.tessellate(3)
-city.render()
-
-NH9.render()
-musi.render()
-campus.render()
-
-#print(campus.area())
-
-root.mainloop()
-#quit()
