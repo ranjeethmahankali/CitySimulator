@@ -18,7 +18,7 @@ fences = list()#this is the list of all fence objects in the document
 #here the standard program parameter definitions begin
 
 #this is the relation of a regiontype with itself
-regSelfRelation = 2
+regSelfRelation = 1
 
 def error(msg):
     print('Error: '+msg)
@@ -144,6 +144,14 @@ class regionType:
             while i < temp[1]:
                 self.compBuffer.append(temp[0])
                 i += 1
+
+    #this method returns the relation factor of this regType with another
+    def rel(self, otherRegType):
+        if otherRegType is self:
+            global regSelfRelation
+            return regSelfRelation
+        else:
+            return self.relation[otherRegType.name]
 
 class region:
     def __init__(self, regSize, rType, regPosition, toRender = True):
@@ -382,21 +390,22 @@ class region:
         while True:
             for ch in baseReg.child:
                 scDiff = self.scaleDiff(ch)
-                if scDiff > 0 and (not ch is self.parent):
+                if scDiff >= 0 and (not ch is self.parent):
                     scoreVal = ch.size #making proportional to size
-                    d = pv.mod(pv.vDiff(self.center, ch.pos))
+                    d = pv.mod(pv.vDiff(self.center, ch.center))
                     if d == 0:d = 1
 
                     scoreVal /= math.pow(d,scDiff+1)
                     scoreVal *= ch.type.agglomerationFactor
 
-                    self.score[ch.type.name] += scoreVal
+                    #self.score[ch.type.name] += scoreVal
+                    for typeName in regType:
+                        self.score[typeName] += regType[typeName].rel(ch.type)*scoreVal
 
             if baseReg.parent is None:
                 break
             else:
                 baseReg = baseReg.parent
-
 
     #this method first evaluates and then assigns types to all the children
     def sortChildren(self):
