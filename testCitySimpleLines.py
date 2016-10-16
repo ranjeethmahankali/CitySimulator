@@ -17,7 +17,12 @@ industrial.addRel(nonCommercial, 0.1)
 
 city = cs.region(600, nonCommercial, [0,0], False)
 
+testLineV = cs.line([[300,0],[300,600]])
+testLineV.relation['commercial'] = 100
+testLineV.relation['nonCommercial'] = -100
+testLineV.relation['industrial'] = 100
 
+'''
 NH9 = cs.line([[0,60],[200,150],[400,450],[600,540]])
 NH9.relation['commercial'] = 100
 NH9.relation['nonCommercial'] = -100
@@ -29,14 +34,16 @@ musi.relation['nonCommercial'] = -100
 musi.relation['industrial'] = -20
 
 campus = cs.fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
-
+'''
 
 city.tessellate(4)
 city.render()
+testLineV.render()
 
+'''
 NH9.render()
 musi.render()
-
+'''
 #campus.render()
 
 cs.root.mainloop()
