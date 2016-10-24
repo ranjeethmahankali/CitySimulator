@@ -1,6 +1,6 @@
 from tkinter import *
 import math
-from random import randint
+import random
 import planeVec as pv
 
 root = Tk()
@@ -18,7 +18,7 @@ fences = list()#this is the list of all fence objects in the document
 #here the standard program parameter definitions begin
 
 #this is the relation of a regiontype with itself
-regSelfRelation = 1
+regSelfRelation = 1.0
 
 def error(msg):
     print('Error: '+msg)
@@ -30,7 +30,7 @@ def exportCanvas(fileName):
 def sortChildren_random(childList):#sort method o determine the fate of the child spaces.
     #currently this sort method only sorts randomly
     childNum = len(childList)
-    weirdChildNum = randint(0, childNum - 1)
+    weirdChildNum = random.randint(0, childNum - 1)
 
     if childList[weirdChildNum].type.name == 'commercial':
         childList[weirdChildNum].type = regType['nonCommercial']
@@ -269,10 +269,10 @@ class region:
         return checkXLims and checkYLims
 
     #breaks the region into its children and also assigns types to children
-    def tessellate(self, genNum=1):
+    def tessellate(self, minSize = 5):
         self.delete()
         #deleting any previous renderings of this region
-        if genNum <= 0:
+        if self.size < minSize:
             #self.render()
             return
 
@@ -304,7 +304,7 @@ class region:
         self.sortChildren()#new mechanism
 
         for childRegion in self.child:
-            childRegion.tessellate(genNum - 1)
+            childRegion.tessellate(minSize)
 
     #renders the region onto the canvas
     def render(self):
@@ -331,7 +331,7 @@ class region:
         return diff
 
     #this method calculates and assigns scores to all the children
-    def evaluate_lines(self):
+    def evaluate(self, stochasticity):
         global regType
 
         #evaluation based on linear elements - begins
@@ -351,29 +351,8 @@ class region:
                 if d == 0: d = 1#this line is merely to handle the zero division
                 scoreVal /= math.pow(d,diffNum)
 
-                self.score[typeName] += scoreVal
-
-        # evaluation based on linear elements - ends
-    #this method calculates and assigns scores to all the children
-    def evaluate(self):
-        global regType
-
-        #evaluation based on linear elements - begins
-        global lines
-        for typeName in regType:
-            for ln in lines:
-                iLen = self.intercept(ln)
-                if iLen == 0: iLen = 1
-                #reason for above line
-                #if iLen is 0 then it makes the minDist comparisons meaningless
-                #that is why we want it to be a non zero value but small
-
-                d = ln.minDistFrom(self.center)
-                diffNum = abs(self.scale - ln.scale)
-
-                scoreVal = ln.relation[typeName]*iLen
-                if d == 0: d = 1#this line is merely to handle the zero division
-                scoreVal /= math.pow(d,diffNum)
+                #now making it a little random
+                scoreVal *= (1 + (random.uniform(-1, 1) * stochasticity))
 
                 self.score[typeName] += scoreVal
         # evaluation based on linear elements - ends
@@ -390,15 +369,15 @@ class region:
         while True:
             for ch in baseReg.child:
                 scDiff = self.scaleDiff(ch)
-                if scDiff >= 0 and (not ch is self.parent):
+                if scDiff >= 0:# and (not ch is self.parent):
                     scoreVal = ch.size #making proportional to size
                     d = pv.mod(pv.vDiff(self.center, ch.center))
                     if d == 0:d = 1
 
                     scoreVal /= math.pow(d,scDiff+1)
                     scoreVal *= ch.type.agglomerationFactor
+                    scoreVal *= (1 + (random.uniform(-1, 1) * stochasticity))
 
-                    #self.score[ch.type.name] += scoreVal
                     for typeName in regType:
                         self.score[typeName] += regType[typeName].rel(ch.type)*scoreVal
 
@@ -410,8 +389,7 @@ class region:
     #this method first evaluates and then assigns types to all the children
     def sortChildren(self):
         for ch in self.child:
-            #ch.evaluate_lines()
-            ch.evaluate()
+            ch.evaluate(math.pow(self.scale,3)*0.1)
         #above loop scored all the children and now we can begin sorting them
 
         #each member of this dictionary is a list while the keys are the names
@@ -444,9 +422,10 @@ class region:
                 scoreBuffer[tName].remove(selectedChild)
 
 class line:#this class is for the line element objects
-    def __init__(self, pointArray):
+    def __init__(self, pointArray, lineColor = '#000000'):
         self.point = pointArray
         self.graphic = None
+        self.color = lineColor
 
         #this attribute represents how far up this element is in hierarchy
         #if the value is high then the actual importance is small
@@ -488,7 +467,7 @@ class line:#this class is for the line element objects
     # this method renders the line element on screen
     def render(self):
         #render the line element here
-        self.graphic = canvas.create_line(self.point, fill='black', width = 2)
+        self.graphic = canvas.create_line(self.point, fill=self.color, width = 2)
 
     #deletes the graphic of the line from the canvas only
     def delete(self):

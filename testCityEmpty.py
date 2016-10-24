@@ -9,9 +9,9 @@ nonCommercial = cs.regionType('nonCommercial', '#0000ff', nonCommercialComp)
 industrial = cs.regionType('industrial', '#ff0000', industrialComp)
 
 #assigning relation factors
-commercial.addRel(nonCommercial, -0.7)
+commercial.addRel(nonCommercial, 1)
 commercial.addRel(industrial, 1)
-industrial.addRel(nonCommercial, -0.7)
+industrial.addRel(nonCommercial, 1)
 
 city = cs.region(600, nonCommercial, [0,0], False)
 
