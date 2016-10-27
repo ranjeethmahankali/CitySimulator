@@ -11,9 +11,9 @@ industrial = cs.regionType('industrial', '#00ff00', industrialComp)
 #print(nonCommercial.compBuffer)
 
 #assigning relation factors
-commercial.addRel(nonCommercial, -0.1)
+commercial.addRel(nonCommercial, 0.2)
 commercial.addRel(industrial, 1)
-industrial.addRel(nonCommercial, -0.9)
+industrial.addRel(nonCommercial, 1)
 
 city = cs.region(600, nonCommercial, [0,0], False)
 
@@ -30,7 +30,7 @@ musi.relation['industrial'] = -20
 
 campus = cs.fence([[100,200],[200,100],[300,200],[300,400],[200,300],[100,300]])
 
-city.tessellate(50)
+city.tessellate(20)
 city.render()
 
 NH9.render()

@@ -1,5 +1,6 @@
 #this is the 2d vector functions library
 import math
+print('testing')
 
 #returns the distance between the two points
 def dist(x1,y1,x2,y2):

@@ -27,6 +27,7 @@ def exportCanvas(fileName):
     canvas.update()
     canvas.postscript(file = fileName+'.eps', colormode='color')
 
+#This method is not in use anymore... to be deleted from the file after sometime
 def sortChildren_random(childList):#sort method o determine the fate of the child spaces.
     #currently this sort method only sorts randomly
     childNum = len(childList)
@@ -37,6 +38,7 @@ def sortChildren_random(childList):#sort method o determine the fate of the chil
     elif childList[weirdChildNum].type.name == 'nonCommercial':
         childList[weirdChildNum].type = regType['commercial']
 
+#This method is not in use anymore... to be deleted from the file after sometime
 def sortChildren_lines(parentReg, lineList):
     #this method will sort according to the connectivity to the lineElements
     flipChildNum = 0
@@ -108,7 +110,8 @@ class regionType:
         self.makeCompBuffer()
 
         self.relation = dict()
-        self.agglomerationFactor = 0.1
+        global regSelfRelation
+        self.agglomerationFactor = regSelfRelation
 
         regType[self.name] = self
 
@@ -148,8 +151,7 @@ class regionType:
     #this method returns the relation factor of this regType with another
     def rel(self, otherRegType):
         if otherRegType is self:
-            global regSelfRelation
-            return regSelfRelation
+            return self.agglomerationFactor
         else:
             return self.relation[otherRegType.name]
 
@@ -269,7 +271,8 @@ class region:
         return checkXLims and checkYLims
 
     #breaks the region into its children and also assigns types to children
-    def tessellate(self, minSize = 5):
+    def tessellate(self, minSize = 5, showSteps = False):
+        #the show steps boolean pauses the program in between to show the steps
         self.delete()
         #deleting any previous renderings of this region
         if self.size < minSize:
@@ -357,29 +360,16 @@ class region:
                 self.score[typeName] += scoreVal
         # evaluation based on linear elements - ends
 
-        baseReg = None
+        baseReg = self
         if not self.parent is None:
             if not self.parent.parent is None:
                 baseReg = self.parent.parent
             else:
                 baseReg = self.parent
-        else:
-            baseReg = self
 
         while True:
             for ch in baseReg.child:
-                scDiff = self.scaleDiff(ch)
-                if scDiff >= 0:# and (not ch is self.parent):
-                    scoreVal = ch.size #making proportional to size
-                    d = pv.mod(pv.vDiff(self.center, ch.center))
-                    if d == 0:d = 1
-
-                    scoreVal /= math.pow(d,scDiff+1)
-                    scoreVal *= ch.type.agglomerationFactor
-                    scoreVal *= (1 + (random.uniform(-1, 1) * stochasticity))
-
-                    for typeName in regType:
-                        self.score[typeName] += regType[typeName].rel(ch.type)*scoreVal
+                self.scoreWith(ch, stochasticity)
 
             if baseReg.parent is None:
                 break
@@ -389,7 +379,7 @@ class region:
     #this method first evaluates and then assigns types to all the children
     def sortChildren(self):
         for ch in self.child:
-            ch.evaluate(math.pow(self.scale,3)*0.1)
+            ch.evaluate(math.pow(self.scale,2)*0.1)
         #above loop scored all the children and now we can begin sorting them
 
         #each member of this dictionary is a list while the keys are the names
@@ -420,6 +410,21 @@ class region:
 
             for tName in scoreBuffer:
                 scoreBuffer[tName].remove(selectedChild)
+
+    #thsi method returns the score of the self w.r.t anotherReg
+    def scoreWith(self, anotherReg, stochasticity):
+        scDiff = self.scaleDiff(anotherReg)
+        if scDiff >= 0 and (not anotherReg is self.parent):
+            scoreVal = anotherReg.size #making the score proportional to the size of the region
+            d = pv.mod(pv.vDiff(self.center, anotherReg.center))
+            if d == 0:d = 1 #this is just to prevent division by zero
+
+            scoreVal /= math.pow(d, scDiff + 1)
+            #scoreVal *= anotherReg.type.agglomerationFactor
+            scoreVal *= (1+(random.uniform(-1,1)*stochasticity))
+
+            for typeName in regType:
+                self.score[typeName] += regType[typeName].rel(anotherReg.type)*scoreVal
 
 class line:#this class is for the line element objects
     def __init__(self, pointArray, lineColor = '#000000'):
@@ -490,7 +495,8 @@ class fence:
 
         fences.append(self)
 
-    #this method needs some serious fixing
+    #this method needs some serious fixing cuz there is a lot of dumb crap in it right now
+    #DO NOT USE THIS METHOD. NEEDS FIXING.
     def hasPoint(self, pos):#this method returns a boolean whether pos lies inside this fence or not
         crossCount = 0 #counting the number of times the polugon is crossed
         rayVec = [1,0] # I am about to write a ray casting algorithm to the right
@@ -507,7 +513,7 @@ class fence:
                 #the lines are parallel
                 i += 1
                 # the increment of i is neccessary because this is a while loop not for loop
-                # continue statement doesnot automatically do it
+                # continue statement doesnot automatically do it, which I thought it does at first
                 continue
 
             othCross = pv.vCross(pv.vDiff(v1,pos),lineVec)
